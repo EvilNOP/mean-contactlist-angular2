@@ -50,11 +50,29 @@ function handleError(response, reason, message, code) {
  */
 
 app.get("/api/contacts", (request, response) => {
-
+  db.collection(CONTACTS_COLLECTION).find({}).toArray((error, docs) => {
+    if (error) {
+      handleError(res, error.message, 'Failed to get contacts.');
+    } else {
+      res.status(200).json(docs);
+    }
+  });
 });
 
 app.post("/api/contacts", (request, response) => {
+  const newContact = request.body;
+  
+  if (!request.body.name) {
+    handleError(response, 'Invalid user input", "Must provide a name.', 400);
+  }
 
+  db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
+    if (err) {
+      handleError(response, err.message, 'Failed to create new contact.');
+    } else {
+      response.status(201).json(doc.ops[0]);
+    }
+  });
 });
 
 /*  /api/contacts/:id
