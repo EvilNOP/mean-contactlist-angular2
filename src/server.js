@@ -25,13 +25,13 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, (error, database) => {
   // Save database object from the callback for reuse.
   db = database;
 
-  console.log("Database connection ready");
+  console.log('Database connection ready');
 
   // Initialize the app.
   const server = app.listen(process.env.PORT || 8080, () => {
     const port = server.address().port;
 
-    console.log("App now running on port", port);
+    console.log('App now running on port', port);
   });
 });
 
@@ -49,7 +49,7 @@ function handleError(response, reason, message, code) {
  *  POST: creates a new contact
  */
 
-app.get("/api/contacts", (request, response) => {
+app.get('/api/contacts', (request, response) => {
   db.collection(CONTACTS_COLLECTION).find({}).toArray((error, docs) => {
     if (error) {
       handleError(res, error.message, 'Failed to get contacts.');
@@ -59,11 +59,11 @@ app.get("/api/contacts", (request, response) => {
   });
 });
 
-app.post("/api/contacts", (request, response) => {
+app.post('/api/contacts', (request, response) => {
   const newContact = request.body;
   
   if (!request.body.name) {
-    handleError(response, 'Invalid user input", "Must provide a name.', 400);
+    handleError(response, 'Invalid user input', 'Must provide a name.', 400);
   }
 
   db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
@@ -81,14 +81,14 @@ app.post("/api/contacts", (request, response) => {
  *  DELETE: deletes contact by id
  */
 
-app.get("/api/contacts/:id", (request, response) => {
+app.get('/api/contacts/:id', (request, response) => {
 
 });
 
-app.put("/api/contacts/:id", (request, response) => {
+app.put('/api/contacts/:id', (request, response) => {
 
 });
 
-app.delete("/api/contacts/:id", (request, response) => {
+app.delete('/api/contacts/:id', (request, response) => {
   
 });
