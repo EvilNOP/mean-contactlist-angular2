@@ -82,13 +82,39 @@ app.post('/api/contacts', (request, response) => {
  */
 
 app.get('/api/contacts/:id', (request, response) => {
-
+  db.collection(CONTACTS_COLLECTION).findOne({ _id: new ObjectID(request.params.id) }, (error, doc) => {
+    if (error) {
+      handleError(response, error.message, 'Failed to get contact');
+    } else {
+      response.status(200).json(doc);
+    }
+  });
 });
 
 app.put('/api/contacts/:id', (request, response) => {
+  const updateDoc = request.body;
 
+  delete updateDoc._id;
+
+  db.collection(CONTACTS_COLLECTION)
+    .updateOne({_id: new ObjectID(request.params.id)}, updateDoc, (error, doc) => {
+      if (error) {
+        handleError(response, error.message, 'Failed to update contact');
+      } else {
+        updateDoc._id = request.params.id;
+        
+        response.status(200).json(updateDoc);
+      }
+  });
 });
 
 app.delete('/api/contacts/:id', (request, response) => {
-  
+  db.collection(CONTACTS_COLLECTION)
+    .deleteOne({_id: new ObjectID(request.params.id)}, function(error, result) {
+      if (error) {
+        handleError(response, error.message, 'Failed to delete contact');
+      } else {
+        response.status(200).json(request.params.id);
+      }
+  });
 });
