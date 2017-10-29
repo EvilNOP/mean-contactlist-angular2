@@ -36,3 +36,41 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, (error, database) => {
 });
 
 // CONTACTS API ROUTES BELOW
+
+// Generic error handler used by all endpoints.
+function handleError(response, reason, message, code) {
+  console.log('ERROR: ' + reason);
+  
+  response.status(code || 500).json({ 'error': message });
+}
+
+/*  /api/contacts
+ *  GET: finds all contacts
+ *  POST: creates a new contact
+ */
+
+app.get("/api/contacts", (request, response) => {
+
+});
+
+app.post("/api/contacts", (request, response) => {
+
+});
+
+/*  /api/contacts/:id
+ *  GET: find contact by id
+ *  PUT: update contact by id
+ *  DELETE: deletes contact by id
+ */
+
+app.get("/api/contacts/:id", (request, response) => {
+
+});
+
+app.put("/api/contacts/:id", (request, response) => {
+
+});
+
+app.delete("/api/contacts/:id", (request, response) => {
+  
+});
