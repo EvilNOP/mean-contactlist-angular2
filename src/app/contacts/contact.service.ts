@@ -19,7 +19,13 @@ export class ContactService {
       .catch(this.handleError);
   }
 
-  // get("/api/contacts/:id") endpoint not used by Angular app
+  // post("/api/contacts")
+  createContact(newContact: Contact): Promise<void | Contact> {
+    return this.http.post(this.contactsUrl, newContact)
+      .toPromise()
+      .then(response => response.json() as Contact)
+      .catch(this.handleError);
+  }
 
   // delete("/api/contacts/:id")
   deleteContact(delContactId: String): Promise<void | String> {
